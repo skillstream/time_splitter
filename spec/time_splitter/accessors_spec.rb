@@ -32,18 +32,6 @@ describe TimeSplitter::Accessors do
           expect(model.starts_at_date).to eq Date.new(2222, 5, 6)
         end
 
-        it 'sets the hour on the new default' do
-          model.starts_at_hour = 9
-          expect(model.starts_at).to eq DateTime.new(1111, 2, 3, 9, 5, 0, '+7')
-          expect(model.starts_at_hour).to eq 9
-        end
-
-        it 'sets the minute on the new default' do
-          model.starts_at_min = 20
-          expect(model.starts_at).to eq DateTime.new(1111, 2, 3, 4, 20, 0, '+7')
-          expect(model.starts_at_min).to eq 20
-        end
-
         it 'sets the time on the new default' do
           model.starts_at_time = '09:22'
           expect(model.starts_at).to eq DateTime.new(1111, 2, 3, 9, 22, 0, '+7')
@@ -73,38 +61,6 @@ describe TimeSplitter::Accessors do
 
         it "is nil if the string is empty" do
           model.starts_at_date = ""
-          expect(model.starts_at).to be_nil
-        end
-      end
-
-      describe "#starts_at_hour" do
-        it "returns nil" do
-          expect(model.starts_at_hour).to be_nil
-        end
-
-        it "sets the hour of starts_at" do
-          model.starts_at_hour = 11
-          expect(model.starts_at).to eq Time.new(0, 1, 1, 11, 0, 0, '+00:00')
-        end
-
-        it "is nil if the string is empty" do
-          model.starts_at_hour = ""
-          expect(model.starts_at).to be_nil
-        end
-      end
-
-      describe "#starts_at_min" do
-        it "returns nil" do
-          expect(model.starts_at_min).to be_nil
-        end
-
-        it "sets the minute of #starts_at" do
-          model.starts_at_min = 55
-          expect(model.starts_at).to eq Time.new(0, 1, 1, 0, 55, 0, '+00:00')
-        end
-
-        it "is nil if the string is empty" do
-          model.starts_at_min = ""
           expect(model.starts_at).to be_nil
         end
       end
@@ -156,38 +112,6 @@ describe TimeSplitter::Accessors do
 
         it "uses the default if the string is empty" do
           model.starts_at_date = ""
-          expect(model.starts_at).to eq Time.new(2222, 12, 22, 13, 44, 0, '+00:00')
-        end
-      end
-
-      describe "#starts_at_hour" do
-        it "returns the hour" do
-          expect(model.starts_at_hour).to eq 13
-        end
-
-        it "sets the hour of starts_at" do
-          model.starts_at_hour = 11
-          expect(model.starts_at).to eq Time.new(2222, 12, 22, 11, 44, 0, '+00:00')
-        end
-
-        it "uses the default if the string is empty" do
-          model.starts_at_hour = ""
-          expect(model.starts_at).to eq Time.new(2222, 12, 22, 13, 44, 0, '+00:00')
-        end
-      end
-
-      describe "#starts_at_min" do
-        it "returns the min" do
-          expect(model.starts_at_min).to eq 44
-        end
-
-        it "sets the minute of #starts_at" do
-          model.starts_at_min = 55
-          expect(model.starts_at).to eq Time.new(2222, 12, 22, 13, 55, 0, '+00:00')
-        end
-
-        it "uses the default if the string is empty" do
-          model.starts_at_min = ""
           expect(model.starts_at).to eq Time.new(2222, 12, 22, 13, 44, 0, '+00:00')
         end
       end

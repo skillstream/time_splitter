@@ -35,10 +35,8 @@ In your view:
 
 ```erb
 <%= simple_form_for @event do |f| %>
-  <%= f.input :starts_at_date, as: :string, input_html: { class: 'datepicker' } %>
-  <%= f.input :starts_at_hour, collection: 0..24 %>
-  <%= f.input :starts_at_min, collection: [0, 15, 30, 45] %>
-  <%= f.input :starts_at_time, as: :time
+  <%= f.hidden_field :started_at_date %>
+  <%= f.input :started_at_time, input_html: {type: :time }
   <%= ... %>
 <% end %>
 ```
@@ -53,8 +51,6 @@ By default, the read accessors provided by TimeSplitter are as follows:
 ```ruby
 starts_at_date #=> Date
 starts_at_time #=> Time or Timey class used in :default option
-starts_at_hour #=> Fixnum
-starts_at_min  #=> Fixnum
 ```
 
 You can override the default read format for date and time if you so choose, though doing so may not work well with certain form input types.
@@ -87,4 +83,3 @@ split_accessor :starts_at, default: -> { DateTime.current }
 The default time object is `Time.new(0, 1, 1, 0, 0, 0, '+00:00')`.
 
 Note that TimeSplitter does not handle seconds at this time, and from testing it appears they are set to zero when modifying them.
-

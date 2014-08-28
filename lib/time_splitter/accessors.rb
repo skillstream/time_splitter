@@ -23,16 +23,6 @@ module TimeSplitter
           self.send("#{attr}=", self.send("#{attr}_or_new").change(year: date.year, month: date.month, day: date.day))
         end
 
-        define_method("#{attr}_hour=") do |hour|
-          return unless hour.present?
-          self.send("#{attr}=", self.send("#{attr}_or_new").change(hour: hour, min: self.send("#{attr}_or_new").min))
-        end
-
-        define_method("#{attr}_min=") do |min|
-          return unless min.present?
-          self.send("#{attr}=", self.send("#{attr}_or_new").change(min: min))
-        end
-
         define_method("#{attr}_time=") do |time|
           return unless time.present?
           time = Time.parse(time) unless time.is_a?(Date) || time.is_a?(Time)
@@ -43,14 +33,6 @@ module TimeSplitter
         define_method("#{attr}_date") do
           date = self.send(attr).try :to_date
           date && options[:date_format] ? date.strftime(options[:date_format]) : date
-        end
-
-        define_method("#{attr}_hour") do
-          self.send(attr).try :hour
-        end
-
-        define_method("#{attr}_min") do
-          self.send(attr).try :min
         end
 
         define_method("#{attr}_time") do
