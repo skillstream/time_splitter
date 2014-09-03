@@ -14,7 +14,7 @@ module TimeSplitter
           return unless date.present?
           begin
             # create a date object from a string or Time onbject if supplied
-            date = DateTime.strptime(date, options[:date_format]) if date.is_a?(String) # string to date
+            date = Time.strptime(date, options[:date_format]) if date.is_a?(String) && DateTime.strptime(date, options[:date_format]) # valid string to date
             date = date.to_date if date.is_a?(Time) # time to date
 
             # set the attr_at value to the Date object
@@ -76,9 +76,11 @@ module TimeSplitter
             time_str = instance_variable_get("@#{attr}_time")
             if date_str
               if time_str
-                self.send("#{attr}_at=", DateTime.strptime([date_str,time_str].join(" "), [options[:date_format],options[:time_format]].join(" ")))
+                value = [date_str,time_str].join(" ")
+                format = [options[:date_format],options[:time_format]].join(" ")
+                self.send("#{attr}_at=", Time.strptime(value,format)) if DateTime.strptime(value,format) # DateTime.strptime prevents parsing of invalid date/times
               else
-                self.send("#{attr}_on=", DateTime.strptime(date_str, options[:date_format]))
+                self.send("#{attr}_on=", Time.strptime(date_str, options[:date_format])) if DateTime.strptime(date_str,options[:date_format]) # DateTime.strptime prevents parsing of invalid dates
               end
             end
           rescue ArgumentError

@@ -28,7 +28,7 @@ describe TimeSplitter::Accessors do
           end
 
           it "returns a date when a valid datetime is supplied" do
-            time = Time.utc(1970, 1, 1, 1, 0)
+            time = Time.local(1970, 1, 1, 1, 0)
             model.starts_on = time
             expect(model.starts_at).to eq time.to_date
           end
@@ -39,7 +39,7 @@ describe TimeSplitter::Accessors do
             expect(model.starts_at).to eq date
           end
 
-          it "returns nil when an invalid date (non existant leap year) is supplied" do
+          it "returns nil when an invalid date (non existent leap year) is supplied" do
             model.starts_on = "29/02/2014" # no leap year in 2014
             expect(model.starts_at).to be_nil
           end
@@ -63,7 +63,7 @@ describe TimeSplitter::Accessors do
             expect(model.starts_at).to eq date
           end
 
-          it "returns nil when an invalid date (non existant leap year) is supplied" do
+          it "returns nil when an invalid date (non existent leap year) is supplied" do
             model.starts_date = "29/02/2014" # no leap year in 2014
             expect(model.starts_at).to be_nil
           end
@@ -76,7 +76,7 @@ describe TimeSplitter::Accessors do
 
         context 'when modifying #starts_time' do
           it "returns a datetime when a valid time (object) is supplied" do
-            time = Time.utc(1970, 1, 1, 1, 0)
+            time = Time.local(1970, 1, 1, 1, 0)
             model.starts_time = time
             expect(model.starts_at).to eq time
           end
@@ -85,7 +85,7 @@ describe TimeSplitter::Accessors do
             before { model.starts_date = Date.new(1970, 1, 1) }
 
             it "returns a datetime when a valid time string is supplied" do
-              time = Time.utc(1970, 1, 1, 1, 0)
+              time = Time.local(1970, 1, 1, 1, 0)
               model.starts_time = time.strftime("%H:%M")
               expect(model.starts_at).to eq time
             end
@@ -103,7 +103,7 @@ describe TimeSplitter::Accessors do
 
           context 'and no #start_date is supplied' do
             it "returns nil when a valid time string is supplied" do
-              time = Time.utc(1970, 1, 1, 1, 0)
+              time = Time.local(1970, 1, 1, 1, 0)
               model.starts_time = time.strftime("%H:%M")
               expect(model.starts_at).to be_nil
             end
@@ -122,10 +122,10 @@ describe TimeSplitter::Accessors do
       end
 
       context 'when set to a datetime' do
-        before { model.starts_at = Time.utc(1979, 12, 25, 3, 0) }
+        before { model.starts_at = Time.local(1979, 12, 25, 3, 0) }
 
         it "returns the datetime" do
-          expect(model.starts_at).to eq Time.utc(1979, 12, 25, 3, 0)
+          expect(model.starts_at).to eq Time.local(1979, 12, 25, 3, 0)
         end
 
         describe 'when modifying #starts_on' do
@@ -136,7 +136,7 @@ describe TimeSplitter::Accessors do
           end
 
           it "returns a date when a valid datetime is supplied" do
-            time = Time.utc(1970, 1, 1, 1, 0)
+            time = Time.local(1970, 1, 1, 1, 0)
             model.starts_on = time
             expect(model.starts_at).to eq time.to_date
           end
@@ -147,14 +147,14 @@ describe TimeSplitter::Accessors do
             expect(model.starts_at).to eq date
           end
 
-          it "returns the datetime when an invalid date (non existant leap year) is supplied" do
+          it "returns the datetime when an invalid date (non existent leap year) is supplied" do
             model.starts_on = "29/02/2014" # no leap year in 2014
-            expect(model.starts_at).to eq Time.utc(1979, 12, 25, 3, 0)
+            expect(model.starts_at).to eq Time.local(1979, 12, 25, 3, 0)
           end
 
           it "returns nil when an invalid date (non date) is supplied" do
             model.starts_on = "foo"
-            expect(model.starts_at).to eq Time.utc(1979, 12, 25, 3, 0)
+            expect(model.starts_at).to eq Time.local(1979, 12, 25, 3, 0)
           end
         end
 
@@ -171,20 +171,20 @@ describe TimeSplitter::Accessors do
             expect(model.starts_at).to eq date
           end
 
-          it "returns the datetime when an invalid date (non existant leap year) is supplied" do
+          it "returns the datetime when an invalid date (non existent leap year) is supplied" do
             model.starts_date = "29/02/2014" # no leap year in 2014
-            expect(model.starts_at).to eq Time.utc(1979, 12, 25, 3, 0)
+            expect(model.starts_at).to eq Time.local(1979, 12, 25, 3, 0)
           end
 
           it "returns the datetime when an invalid date (non date) is supplied" do
             model.starts_date = "foo"
-            expect(model.starts_at).to eq Time.utc(1979, 12, 25, 3, 0)
+            expect(model.starts_at).to eq Time.local(1979, 12, 25, 3, 0)
           end
         end
 
         context 'when modifying #starts_time' do
           it "returns a datetime when a valid time (object) is supplied" do
-            time = Time.utc(1971, 2, 2, 4, 30)
+            time = Time.local(1971, 2, 2, 4, 30)
             model.starts_time = time
             expect(model.starts_at).to eq time
           end
@@ -194,7 +194,7 @@ describe TimeSplitter::Accessors do
 
             it "returns a datetime when a valid time string is supplied" do
               model.starts_time = "01:45"
-              expect(model.starts_at).to eq Time.utc(1972, 4, 4, 1, 45)
+              expect(model.starts_at).to eq Time.local(1972, 4, 4, 1, 45)
             end
 
             it "returns the date when an invalid time (format) is supplied" do
@@ -225,7 +225,7 @@ describe TimeSplitter::Accessors do
           end
 
           it "returns a date when a valid time (object) is supplied" do
-            time = Time.utc(1970, 1, 2, 3, 45)
+            time = Time.local(1970, 1, 2, 3, 45)
             model.starts_date = time
             expect(model.starts_on).to eq time.to_date
           end
@@ -236,7 +236,7 @@ describe TimeSplitter::Accessors do
             expect(model.starts_on).to eq date
           end
 
-          it "returns nil when an invalid date (non existant leap year) is supplied" do
+          it "returns nil when an invalid date (non existent leap year) is supplied" do
             model.starts_date = "29/02/2014" # no leap year in 2014
             expect(model.starts_on).to be_nil
           end
@@ -249,7 +249,7 @@ describe TimeSplitter::Accessors do
 
         context 'when modifying #starts_time' do
           it "returns a date when a valid time (object) is supplied" do
-            time = Time.utc(1970, 1, 1, 1, 0)
+            time = Time.local(1970, 1, 1, 1, 0)
             model.starts_time = time
             expect(model.starts_on).to eq time.to_date
           end
@@ -275,7 +275,7 @@ describe TimeSplitter::Accessors do
 
           context 'and no #start_date is supplied' do
             it "returns nil when a valid time string is supplied" do
-              time = Time.utc(1970, 1, 1, 1, 0)
+              time = Time.local(1970, 1, 1, 1, 0)
               model.starts_time = time.strftime("%H:%M")
               expect(model.starts_on).to be_nil
             end
@@ -313,7 +313,7 @@ describe TimeSplitter::Accessors do
             expect(model.starts_on).to eq date
           end
 
-          it "returns the date when an invalid date (non existant leap year) is supplied" do
+          it "returns the date when an invalid date (non existent leap year) is supplied" do
             model.starts_date = "29/02/2014" # no leap year in 2014
             expect(model.starts_on).to eq Date.new(1975, 3, 4)
           end
@@ -366,7 +366,7 @@ describe TimeSplitter::Accessors do
           end
 
           it "returns a date when a valid time (object) is supplied" do
-            time = Time.utc(1983, 7, 8, 7, 54)
+            time = Time.local(1983, 7, 8, 7, 54)
             model.starts_at = time
             expect(model.starts_date).to eq time.strftime("%d/%m/%Y")
           end
@@ -380,7 +380,7 @@ describe TimeSplitter::Accessors do
           end
 
           it "returns a date when a valid time (object) is supplied" do
-            time = Time.utc(1983, 7, 8, 7, 54)
+            time = Time.local(1983, 7, 8, 7, 54)
             model.starts_on = time
             expect(model.starts_date).to eq time.strftime("%d/%m/%Y")
           end
@@ -394,7 +394,7 @@ describe TimeSplitter::Accessors do
           end
 
           it "returns a date string when a valid time (object) is supplied" do
-            time = Time.utc(1970, 1, 2, 3, 45)
+            time = Time.local(1970, 1, 2, 3, 45)
             model.starts_date = time
             expect(model.starts_date).to eq time.strftime("%d/%m/%Y")
           end
@@ -405,7 +405,7 @@ describe TimeSplitter::Accessors do
             expect(model.starts_date).to eq date
           end
 
-          it "returns the supplied string when an invalid date (non existant leap year) is supplied" do
+          it "returns the supplied string when an invalid date (non existent leap year) is supplied" do
             invalid_date = "29/02/2014" # no leap year in 2014
             model.starts_date = invalid_date
             expect(model.starts_date).to eq invalid_date
@@ -446,7 +446,7 @@ describe TimeSplitter::Accessors do
           end
 
           it "returns the original value when a valid time (object) is supplied" do
-            model.starts_at = Time.utc(1983, 7, 8, 7, 54)
+            model.starts_at = Time.local(1983, 7, 8, 7, 54)
             expect(model.starts_date).to eq "3/4/2010"
           end
         end
@@ -458,7 +458,7 @@ describe TimeSplitter::Accessors do
           end
 
           it "returns the original value when a valid time (object) is supplied" do
-            time = Time.utc(1983, 7, 8, 7, 54)
+            time = Time.local(1983, 7, 8, 7, 54)
             model.starts_on = time
             expect(model.starts_date).to eq "3/4/2010"
           end
@@ -472,7 +472,7 @@ describe TimeSplitter::Accessors do
           end
 
           it "returns a date string when a valid time (object) is supplied" do
-            time = Time.utc(1970, 1, 2, 3, 45)
+            time = Time.local(1970, 1, 2, 3, 45)
             model.starts_date = time
             expect(model.starts_date).to eq time.strftime("%d/%m/%Y")
           end
@@ -483,7 +483,7 @@ describe TimeSplitter::Accessors do
             expect(model.starts_date).to eq date
           end
 
-          it "returns the supplied string when an invalid date (non existant leap year) is supplied" do
+          it "returns the supplied string when an invalid date (non existent leap year) is supplied" do
             invalid_date = "29/02/2014" # no leap year in 2014
             model.starts_date = invalid_date
             expect(model.starts_date).to eq invalid_date
@@ -525,7 +525,7 @@ describe TimeSplitter::Accessors do
           end
 
           it "returns a time string when a valid time (object) is supplied" do
-            time = Time.utc(1993, 6, 20, 8, 37)
+            time = Time.local(1993, 6, 20, 8, 37)
             model.starts_at = time
             expect(model.starts_time).to eq time.strftime("%H:%M")
           end
@@ -538,7 +538,7 @@ describe TimeSplitter::Accessors do
           end
 
           it "returns the time string of the date supplied when a valid time (object) is supplied" do
-            model.starts_on = Time.utc(1993, 12, 14, 15, 16)
+            model.starts_on = Time.local(1993, 12, 14, 15, 16)
             expect(model.starts_time).to eq "00:00"
           end
         end
@@ -550,7 +550,7 @@ describe TimeSplitter::Accessors do
           end
 
           it "returns the time string of the date supplied when a valid time (object) is supplied" do
-            model.starts_date = Time.utc(1970, 1, 2, 3, 45)
+            model.starts_date = Time.local(1970, 1, 2, 3, 45)
             expect(model.starts_time).to eq "00:00"
           end
 
@@ -559,7 +559,7 @@ describe TimeSplitter::Accessors do
             expect(model.starts_time).to eq "00:00"
           end
 
-          it "returns nil when an invalid date (non existant leap year) is supplied" do
+          it "returns nil when an invalid date (non existent leap year) is supplied" do
             model.starts_date = "29/02/2014" # no leap year in 2014
             expect(model.starts_time).to be_nil
           end
@@ -582,7 +582,7 @@ describe TimeSplitter::Accessors do
           end
 
           it "returns a time string when a valid time (object) is supplied" do
-            time = Time.utc(1970, 1, 2, 3, 45)
+            time = Time.local(1970, 1, 2, 3, 45)
             model.starts_time = time
             expect(model.starts_time).to eq time.strftime("%H:%M")
           end
@@ -593,7 +593,7 @@ describe TimeSplitter::Accessors do
             expect(model.starts_time).to eq "09/09/2009"
           end
 
-          it "returns the string supplied when an invalid date (non existant leap year) is supplied" do
+          it "returns the string supplied when an invalid date (non existent leap year) is supplied" do
             invalid_date = "29/02/2014" # no leap year in 2014
             model.starts_time = invalid_date
             expect(model.starts_time).to eq invalid_date
@@ -639,7 +639,7 @@ describe TimeSplitter::Accessors do
           end
 
           it "returns the original value when a valid time (object) is supplied" do
-            model.starts_at = Time.utc(1983, 7, 8, 7, 54)
+            model.starts_at = Time.local(1983, 7, 8, 7, 54)
             expect(model.starts_time).to eq "05:05"
           end
         end
@@ -651,7 +651,7 @@ describe TimeSplitter::Accessors do
           end
 
           it "returns the original value when a valid time (object) is supplied" do
-            time = Time.utc(1983, 7, 8, 7, 54)
+            time = Time.local(1983, 7, 8, 7, 54)
             model.starts_on = time
             expect(model.starts_time).to eq "05:05"
           end
@@ -664,7 +664,7 @@ describe TimeSplitter::Accessors do
           end
 
           it "returns the original value when a valid time (object) is supplied" do
-            model.starts_date = Time.utc(1970, 1, 2, 3, 45)
+            model.starts_date = Time.local(1970, 1, 2, 3, 45)
             expect(model.starts_time).to eq "05:05"
           end
 
@@ -673,7 +673,7 @@ describe TimeSplitter::Accessors do
             expect(model.starts_time).to eq "05:05"
           end
 
-          it "returns the original value when an invalid date (non existant leap year) is supplied" do
+          it "returns the original value when an invalid date (non existent leap year) is supplied" do
             model.starts_date = "29/02/2014" # no leap year in 2014
             expect(model.starts_time).to eq "05:05"
           end
@@ -696,7 +696,7 @@ describe TimeSplitter::Accessors do
           end
 
           it "returns a time string when a valid time (object) is supplied" do
-            time = Time.utc(1970, 1, 2, 3, 45)
+            time = Time.local(1970, 1, 2, 3, 45)
             model.starts_time = time
             expect(model.starts_time).to eq time.strftime("%H:%M")
           end
@@ -707,7 +707,7 @@ describe TimeSplitter::Accessors do
             expect(model.starts_time).to eq "09/09/2009"
           end
 
-          it "returns the string supplied when an invalid date (non existant leap year) is supplied" do
+          it "returns the string supplied when an invalid date (non existent leap year) is supplied" do
             invalid_date = "29/02/2014" # no leap year in 2014
             model.starts_time = invalid_date
             expect(model.starts_time).to eq invalid_date
