@@ -12,16 +12,16 @@ module TimeSplitter
         # Writers
         define_method("#{attr}_on=") do |date|
           return unless date.present?
-          begin
-            # create a date object from a string or Time onbject if supplied
-            date = Time.strptime(date, options[:date_format]) if date.is_a?(String) && DateTime.strptime(date, options[:date_format]) # valid string to date
-            date = date.to_date if date.is_a?(Time) # time to date
 
-            # set the attr value to the Date object
-            self.send("#{attr}=", date)
-          rescue ArgumentError
-            # invalid date format
+          # create a date object from a string or Time onbject if supplied
+          if date.is_a?(String)
+            return unless TimeSplitter::valid_date_string?(date, options[:date_format])
+            date = Time.strptime(date, options[:date_format])
           end
+          date = date.to_date if date.is_a?(Time) # time to date
+
+          # set the attr value to the Date object
+          self.send("#{attr}=", date)
         end
 
         define_method("#{attr}_date=") do |date|
@@ -71,24 +71,27 @@ module TimeSplitter
         end
 
         define_method("update_#{attr}") do
-          begin
-            date_str = instance_variable_get("@#{attr}_date")
-            time_str = instance_variable_get("@#{attr}_time")
-            if date_str
-              if time_str
-                value = [date_str,time_str].join(" ")
-                format = [options[:date_format],options[:time_format]].join(" ")
-                self.send("#{attr}=", Time.strptime(value,format)) if DateTime.strptime(value,format) # DateTime.strptime prevents parsing of invalid date/times
-              else
-                self.send("#{attr}_on=", Time.strptime(date_str, options[:date_format])) if DateTime.strptime(date_str,options[:date_format]) # DateTime.strptime prevents parsing of invalid dates
-              end
+          date_str = instance_variable_get("@#{attr}_date")
+          time_str = instance_variable_get("@#{attr}_time")
+          if date_str
+            if time_str
+              value = [date_str,time_str].join(" ")
+              format = [options[:date_format],options[:time_format]].join(" ")
+              self.send("#{attr}=", Time.strptime(value,format)) if TimeSplitter::valid_date_string?(value,format)
+            else
+              self.send("#{attr}_on=", Time.strptime(date_str, options[:date_format])) if TimeSplitter::valid_date_string?(date_str,options[:date_format])
             end
-          rescue ArgumentError
-            # invalid date format supplied
           end
         end
-
       end
+    end
+  end
+
+  def self.valid_date_string?(input, format)
+    begin
+      DateTime.strptime(input, format).present?
+    rescue ArgumentError #invalid date
+      false
     end
   end
 end
