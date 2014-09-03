@@ -17,8 +17,8 @@ module TimeSplitter
             date = Time.strptime(date, options[:date_format]) if date.is_a?(String) && DateTime.strptime(date, options[:date_format]) # valid string to date
             date = date.to_date if date.is_a?(Time) # time to date
 
-            # set the attr_at value to the Date object
-            self.send("#{attr}_at=", date)
+            # set the attr value to the Date object
+            self.send("#{attr}=", date)
           rescue ArgumentError
             # invalid date format
           end
@@ -55,18 +55,18 @@ module TimeSplitter
 
         # Readers
         define_method("#{attr}_on") do
-          self.send("#{attr}_at").try(:to_date)
+          self.send("#{attr}").try(:to_date)
         end
 
         define_method("#{attr}_date") do
           date = instance_variable_get("@#{attr}_date")
-          date = self.send("#{attr}_at").strftime(options[:date_format]) if date.nil? && self.send("#{attr}_at").present?
+          date = self.send("#{attr}").strftime(options[:date_format]) if date.nil? && self.send("#{attr}").present?
           date
         end
 
         define_method("#{attr}_time") do
           time = instance_variable_get("@#{attr}_time")
-          time = self.send("#{attr}_at").strftime(options[:time_format]) if time.nil? && self.send("#{attr}_at").present?
+          time = self.send("#{attr}").strftime(options[:time_format]) if time.nil? && self.send("#{attr}").present?
           time
         end
 
@@ -78,7 +78,7 @@ module TimeSplitter
               if time_str
                 value = [date_str,time_str].join(" ")
                 format = [options[:date_format],options[:time_format]].join(" ")
-                self.send("#{attr}_at=", Time.strptime(value,format)) if DateTime.strptime(value,format) # DateTime.strptime prevents parsing of invalid date/times
+                self.send("#{attr}=", Time.strptime(value,format)) if DateTime.strptime(value,format) # DateTime.strptime prevents parsing of invalid date/times
               else
                 self.send("#{attr}_on=", Time.strptime(date_str, options[:date_format])) if DateTime.strptime(date_str,options[:date_format]) # DateTime.strptime prevents parsing of invalid dates
               end
